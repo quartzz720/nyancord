@@ -1,0 +1,10 @@
+# binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output directories
+bin/
+node_modules/
