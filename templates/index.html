@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nyancord - Simple Chat</title>
+    <script src="/static/chat.js"></script>
+</head>
+<body>
+    <h1>Nyancord Demo</h1>
+    <div>
+        <label for="channel">Channel:</label>
+        <select id="channel">
+            {% for ch in channels %}
+            <option value="{{ch}}">{{ch}}</option>
+            {% endfor %}
+        </select>
+        <input type="text" id="new-channel" placeholder="New channel" />
+        <button onclick="createChannel()">Create</button>
+    </div>
+    <div id="messages" style="white-space: pre-wrap; border: 1px solid #ccc; height: 300px; overflow-y: scroll;"></div>
+    <input type="text" id="message" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+</body>
+</html>
