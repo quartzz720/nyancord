@@ -1,9 +1,15 @@
 package gateway
 
-import "net/http"
+import (
+	"net/http"
 
-func New() *http.ServeMux {
+	"nyancord/internal/auth"
+)
+
+func New(authSvc *auth.Service) *http.ServeMux {
 	mux := http.NewServeMux()
-	// TODO: mount handlers
+	h := &AuthHandlers{Service: authSvc}
+	mux.HandleFunc("/api/register", h.Register)
+	mux.HandleFunc("/api/login", h.Login)
 	return mux
 }

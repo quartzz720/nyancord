@@ -11,7 +11,9 @@ export default function Home() {
     <div className="p-4">
       <h1 className="text-2xl mb-4">Nyancord</h1>
       <ul className="space-y-2">
-        {messages.map((m, i) => <li key={i}>{m}</li>)}
+        {messages.map((m, i) => (
+          <li key={i} className="bg-gray-800 rounded p-2">{m}</li>
+        ))}
       </ul>
     </div>
   )
