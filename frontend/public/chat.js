@@ -36,30 +36,8 @@ function init() {
 function checkAuthStatus() {
     const token = localStorage.getItem('authToken');
     if (token) {
-        verifyToken(token);
+        initializeChat();
     } else {
-        showLoginForm();
-    }
-}
-
-// Верификация токена
-async function verifyToken(token) {
-    try {
-        const response = await fetch('http://localhost:8080/api/auth/profile', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (response.ok) {
-            appState.currentUser = await response.json();
-            initializeChat();
-        } else {
-            throw new Error('Invalid token');
-        }
-    } catch (error) {
-        console.error('Auth verification failed:', error);
-        localStorage.removeItem('authToken');
         showLoginForm();
     }
 }
@@ -99,7 +77,7 @@ async function handleLogin() {
     const errorElement = document.getElementById('loginError');
 
     try {
-        const response = await fetch('http://localhost:8080/api/auth/login', {
+        const response = await fetch('http://localhost:8080/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -115,7 +93,7 @@ async function handleLogin() {
         const data = await response.json();
         localStorage.setItem('authToken', data.token);
         hideLoginForm();
-        verifyToken(data.token);
+        initializeChat();
     } catch (error) {
         errorElement.textContent = error.message;
         console.error('Login error:', error);
@@ -135,15 +113,13 @@ function connectWebSocket(channelId) {
         appState.socket.close();
     }
 
-    const token = localStorage.getItem('authToken');
-    const wsUrl = `ws://localhost:8080/api/ws/channels/${channelId}?token=${encodeURIComponent(token)}`;
+    const wsUrl = `ws://localhost:8080/ws`;
     appState.socket = new WebSocket(wsUrl);
 
     appState.socket.onopen = () => {
         console.log('WebSocket connected');
         appState.isConnected = true;
         updateConnectionStatus(true);
-        loadChannelMessages(channelId);
     };
 
     appState.socket.onmessage = (event) => {
@@ -169,23 +145,6 @@ function connectWebSocket(channelId) {
     };
 }
 
-// Загрузка сообщений канала
-async function loadChannelMessages(channelId) {
-    try {
-        const response = await fetch(`http://localhost:8080/api/channels/${channelId}/messages`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            }
-        });
-
-        if (response.ok) {
-            const messages = await response.json();
-            renderMessages(messages);
-        }
-    } catch (error) {
-        console.error('Failed to load messages:', error);
-    }
-}
 
 // Отрисовка сообщений
 function renderMessages(messages) {
