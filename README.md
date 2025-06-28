@@ -1,106 +1,12 @@
-# Nyancord
+# Mines Game Telegram WebApp
 
-Nyancord — минимальное приложение чата, вдохновлённое Discord. Проект состоит из
-серверной части на Go и клиентской части на Next.js.
+This is a simple demo of a 5x5 mines game with selectable mine counts (3, 5, 10, or 24). It uses a basic Express server to serve static files and provide fake deposit and withdrawal APIs. The admin panel is accessible via `/admin?userId=1286239181` and shows balances and transaction logs in memory.
 
-## Требования
-
-- Go 1.20+
-- Node.js 18+ и npm
-- Docker и docker-compose для запуска вспомогательных сервисов
-
-## Запуск на локальном компьютере
-
-### Клонирование репозитория
+## Running
 
 ```bash
-git clone <repo_url>
-cd nyancord
-```
-
-### Обновление из репозитория
-
-```bash
-git pull
-```
-
-Эта команда скачает последние изменения. Удалённые файлы исчезнут, изменённые обновятся, а новые появятся в вашем каталоге.
-
-### Запуск серверной части
-
-Установите зависимости и соберите приложение:
-
-```bash
-go mod download
-go run ./cmd/server
-```
-
-Сервер по умолчанию слушает порт `8080`. Проверить его работу можно по адресу
-`http://localhost:8080/health`.
-
-### Подготовка базы данных и Redis
-
-Для будущих функций предусмотрены PostgreSQL и Redis. Их удобно запустить через
-`docker-compose`:
-
-```bash
-docker-compose up db redis
-```
-
-### Запуск клиентской части
-
-В отдельном терминале перейдите в каталог `frontend` и установите npm‑пакеты:
-
-```bash
-cd frontend
 npm install
-npm run dev
-```
-
-Next.js стартует на `http://localhost:3000`. Веб‑клиент подключается к серверу
-по WebSocket `ws://localhost:8080/ws`.
-
-## Тестирование на localhost
-
-1. Запустите сервер командой `go run ./cmd/server` или через `docker-compose up`.
-2. Запустите фронтенд `npm run dev`.
-3. Откройте `http://localhost:3000` в нескольких вкладках браузера.
-4. Отправьте сообщение в одной из них — оно отобразится во всех открытых окнах.
-
-Дополнительно можно выполнить:
-
-```bash
-curl http://localhost:8080/health
-```
-
-При корректной работе сервер вернёт код 200.
-
-## Установка в продакшен
-
-### Сборка и запуск сервера
-
-```bash
-docker build -t nyancord-server .
-docker-compose up -d
-```
-
-Измените параметры в `docker-compose.yml` под нужды окружения (пароли БД,
-тома для хранения данных и т.п.).
-
-### Сборка и запуск фронтенда
-
-```bash
-cd frontend
-npm install
-npm run build
 npm start
 ```
 
-При необходимости фронтенд также можно контейнеризировать и запускать через
-Docker или за reverse proxy, например Nginx. Важно проксировать запросы к
-`/ws` на сервер, чтобы работал WebSocket.
-
-## Лицензия
-
-Проект распространяется без указания лицензии, используйте его на своё
-усмотрение.
+Then open `http://localhost:3000` in your browser. This is only a demo; deposits and withdrawals are simulated and do not involve real payments.

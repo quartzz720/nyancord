@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mines Game</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<div class="container">
+  <h1>Mines Game</h1>
+  <div class="controls">
+    <label>Select Mines:</label>
+    <select id="mine-count">
+      <option value="3">3</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="24">24</option>
+    </select>
+    <button id="start-btn">Start Game</button>
+  </div>
+  <div id="board" class="board"></div>
+  <div class="balance">Balance: <span id="balance">0</span></div>
+  <div class="payments">
+    <input type="number" id="amount" placeholder="Amount" />
+    <button id="deposit-btn">Deposit</button>
+    <button id="withdraw-btn">Withdraw</button>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
